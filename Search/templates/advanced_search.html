@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>高级搜索</title>
+    <style>
+        /* 添加样式 */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .search-form {
+            margin-bottom: 20px;
+        }
+
+        .search-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .search-form input, .search-form select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .search-form button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>高级搜索</h1>
+
+    <form action="/advanced_search" method="post" class="search-form">
+        <label for="query">搜索词：</label>
+        <input type="text" id="query" name="query" required>
+
+        <label for="search-type">选择搜索类型：</label>
+        <select id="search-type" name="search_type">
+            <option value="field_search">任意字段搜索</option>
+            <option value="phrase_search">完整短语搜索</option>
+            <option value="range_search">时间范围搜索</option>
+            <option value="fuzzy_search">模糊搜索</option>
+            <option value="wildcard_search">通配搜索</option>
+            <option value="or_search">或逻辑搜索</option>
+        </select>
+
+        <!-- 时间范围搜索输入 -->
+        <div id="range-search-fields" style="display: none;">
+            <label for="from_time">开始时间：</label>
+            <input type="date" id="from_time" name="from_time">
+
+            <label for="to_time">结束时间：</label>
+            <input type="date" id="to_time" name="to_time">
+        </div>
+
+        <div id="or-search-options" style="display: none;">
+            <label for="or-query">请输入用逗号分隔的查询词：</label>
+            <input type="text" id="or-query" name="or_query">
+        </div>
+
+        <!-- 任意字段搜索的字段选择 -->
+        <div id="field-search-options" style="display: none;">
+            <label><input type="checkbox" name="fields" value="pure_text"> 文本匹配</label>
+            <label><input type="checkbox" name="fields" value="title"> 标题匹配</label>
+            <label><input type="checkbox" name="fields" value="url"> url匹配</label>
+            <!-- ... 其他字段 ... -->
+        </div>
+
+        <button type="submit">搜索</button>
+    </form>
+
+
+    <script>
+        document.getElementById('search-type').addEventListener('change', function() {
+            var searchType = this.value;
+            document.getElementById('field-search-options').style.display = searchType === 'field_search' ? 'block' : 'none';
+            document.getElementById('range-search-fields').style.display = searchType === 'range_search' ? 'block' : 'none';
+            document.getElementById('or-search-options').style.display = searchType === 'or_search' ? 'block' : 'none';
+        });
+
+    </script>
+</body>
+</html>

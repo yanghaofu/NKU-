@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>日志页面</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        .logs-container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .log {
+            width: 48%;
+            background-color: white;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+        h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>日志</h1>
+    <div class="logs-container">
+        <div class="log">
+            <h2>搜索日志</h2>
+            <ul>
+                {% for log in search_logs %}
+                <li>{{ log[0] }} - {{ log[1] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="log">
+            <h2>点击日志</h2>
+            <ul>
+                {% for log in click_logs %}
+                <li><a href="{{ log[0] }}">{{ log[1] }}</a> - {{ log[2] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

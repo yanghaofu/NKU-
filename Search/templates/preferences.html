@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>偏好设置</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        .preferences-form {
+            margin: 0 auto;
+            width: 50%;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: start;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .tag-item {
+            flex: 1 1 45%; /* 每个项占用大约一半宽度，允许灵活性 */
+            margin: 5px;
+        }
+
+        .tag-item label {
+            display: block;
+        }
+
+        .tag-item input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>偏好设置</h1>
+    <div class="preferences-form">
+        <form action="/save_preferences" method="post">
+            <div class="tag-list">
+                {% for tag in tags %}
+                <div class="tag-item">
+                    <label><input type="checkbox" name="tags" value="{{ tag }}">{{ tag }}</label>
+                </div>
+                {% endfor %}
+            </div>
+
+            <button type="submit">保存偏好</button>
+        </form>
+    </div>
+</body>
+</html>

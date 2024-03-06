@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>搜索结果</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* 容器布局 */
+        .container {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* 搜索结果样式 */
+        .search-results {
+            flex: 3;  /* 占据更多空间 */
+            margin-right: 20px;
+        }
+
+        .results-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .result-item {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        /* 推荐内容样式 */
+        .recommendations {
+            flex: 1;  /* 占据较少空间 */
+            background-color: #f9f9f9;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            text-align: left;
+            max-height: 600px; /* 设置最大高度 */
+            overflow-y: auto; /* 超出部分滚动 */
+        }
+
+        .recommendations h2 {
+            font-size: 20px;
+            color: #333;
+            text-align: center;  /* 标题居中 */
+            margin-bottom: 15px;
+        }
+
+        .recommendations ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            margin-bottom: 10px;
+        }
+
+        .recommendations a {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .recommendations a:hover {
+            text-decoration: underline;
+        }
+
+        .results-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .result-item {
+            background-color: white;
+            margin-bottom: 10px;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            text-align: left;
+        }
+
+        .result-item a {
+            color: #0066cc;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .result-item a:hover {
+            text-decoration: underline;
+        }
+
+        .result-content {
+            max-height: 150px;
+            overflow-y: auto;
+            margin-top: 10px;
+            padding-right: 10px;  /* 防止滚动条遮挡文本 */
+        }
+
+        .result-content p {
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        .result-details {
+            font-size: 14px;
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>搜索结果: "{{ query }}"</h1>
+    <div class="container">
+    <!-- 搜索结果部分 -->
+    <div class="search-results">
+        <ul class="results-list">
+            {% for result in results %}
+            <li class="result-item">
+                <a href="{{ result.url }}" onclick="recordClick('{{ result.url }}', '{{ result.title }}')">{{ result.title }}</a>
+                <div class="result-content">
+                    <p>{{ result.content }}</p>
+                </div>
+                <div class="result-details">
+                    <p>排名得分: {{ result.page_rank }} - 搜索得分: {{ result.score }}</p>
+                    <p>时间: {{ result.time }}</p>
+                    <!-- 页面快照链接 -->
+                    <a href="/Data/Code/{{ result.id }}.html" target="_blank">查看页面快照</a>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+        <!-- 推荐内容部分 -->
+        <div class="recommendations">
+            <h2>推荐内容</h2>
+            <ul>
+                {% for item in recommendations %}
+                <li>
+                    <a href="{{ item.url }}">{{ item.title }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</body>
+
+<!-- 在 <head> 标签中添加 -->
+<script>
+function recordClick(url, title) {
+    fetch('/record_click', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ url: url, title: title })
+    });
+}
+</script>
+
+</html>
